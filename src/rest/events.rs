@@ -180,7 +180,7 @@ pub struct LocalChangeDetectedEvent {
     #[serde(rename = "folderID")]
     pub folder_id: String,
     pub label: String,
-    path: String,
+    pub path: String,
     #[serde(rename = "type")]
     pub item_type: String, //FIXME: use enum
 }
