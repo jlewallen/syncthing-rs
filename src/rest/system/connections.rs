@@ -3,6 +3,15 @@ use serde::Deserialize;
 use std::collections::HashMap;
 
 #[derive(Debug, Deserialize)]
+pub struct TotalDeviceStats {
+    pub at: String,
+    #[serde(rename = "inBytesTotal")]
+    pub in_bytes_total: u64,
+    #[serde(rename = "outBytesTotal")]
+    pub out_bytes_total: u64,
+}
+
+#[derive(Debug, Deserialize)]
 pub struct DeviceStats {
     pub address: String,
     pub at: String,
@@ -22,6 +31,6 @@ pub struct DeviceStats {
 
 #[derive(Debug, Deserialize)]
 pub struct Connections {
-    pub total: DeviceStats,
+    pub total: TotalDeviceStats,
     pub connections: HashMap<DeviceID, DeviceStats>,
 }
