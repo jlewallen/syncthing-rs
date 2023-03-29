@@ -12,6 +12,9 @@ pub struct ConfigSavedEvent {
 }
 
 #[derive(Debug, Deserialize)]
+pub struct ClusterConfigReceivedEvent {}
+
+#[derive(Debug, Deserialize)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct DeviceConnectedEvent {
     pub addr: String,
@@ -260,6 +263,7 @@ pub struct StateChangedEvent {
 #[derive(Debug, Deserialize)]
 pub enum EventData {
     ConfigSaved(ConfigSavedEvent),
+    ClusterConfigReceived(ClusterConfigReceivedEvent),
     DeviceConnected(DeviceConnectedEvent),
     DeviceDisconnected(DeviceDisconnectedEvent),
     DeviceDiscovered(DeviceDiscoveredEvent),
@@ -300,6 +304,7 @@ pub(super) struct RawEvent {
 #[derive(Debug, Copy, Clone, PartialEq, Deserialize, Serialize)]
 pub enum EventType {
     ConfigSaved,
+    ClusterConfigReceived,
     DeviceConnected,
     DeviceDisconnected,
     DeviceDiscovered,
@@ -354,6 +359,9 @@ impl core::convert::TryFrom<RawEvent> for Event {
             time,
             data: match event_type {
                 EventType::ConfigSaved => ConfigSaved(serde_json::from_str(data)?),
+                EventType::ClusterConfigReceived => {
+                    ClusterConfigReceived(serde_json::from_str(data)?)
+                }
                 EventType::DeviceConnected => DeviceConnected(serde_json::from_str(data)?),
                 EventType::DeviceDisconnected => DeviceDisconnected(serde_json::from_str(data)?),
                 EventType::DeviceDiscovered => DeviceDiscovered(serde_json::from_str(data)?),
